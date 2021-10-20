@@ -10,12 +10,12 @@ void setup(){
  pinMode(ledC, OUTPUT);
 }
 void loop(){
-   digitalWrite(ledA, HIGH);
-   digitalWrite(ledB, HIGH);
-   digitalWrite(ledC, HIGH);
-   delay(2000);  //delay 2 detik
-   digitalWrite(ledA, LOW);
-   digitalWrite(ledB, LOW);
-   digitalWrite(ledC, LOW);
-   delay(2000);
+  digitalWrite(ledA, HIGH);
+  digitalWrite(ledB, HIGH);
+  digitalWrite(ledC, HIGH);
+ delay(2000);  //delay 2 detik
+  digitalWrite(ledA, LOW);
+  digitalWrite(ledB, LOW);
+  digitalWrite(ledC, LOW);
+ delay(2000);
 }
