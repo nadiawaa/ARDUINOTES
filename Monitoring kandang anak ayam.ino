@@ -1,5 +1,7 @@
-#include <ESP8266WiFi.h>
-#include <FirebaseArduino.h>
+//Monitoring Suhu, Kelembaban, Pakan Kandang Anak Ayam dengan sesor suhu (DHT11) dan ultrasoonic(HS04)
+
+#include <ESP8266WiFi.h> //Library NodeMCU
+#include <FirebaseArduino.h>  //library firebase
 #include <NewPing.h> //library hc-sr04
 #include <Servo.h> //library servo
 #include "DHT.h" // library dht11
@@ -12,10 +14,10 @@ DHT dht(DHTPIN,DHT11);
 NewPing sonar(D5, D6, 250); //setup pin hcsr04 dan jarak pembacaan dengan fungsi library
 #define servoPin D3
 Servo myservo;
-#define FIREBASE_HOST "chickencoop-a286c-default-rtdb.firebaseio.com"
-#define FIREBASE_AUTH "yefEutSxBhsom1MJNYWsFu22ZT2VVV8I534P0ZXI"
-#define WIFI_SSID "armin arlert"
-#define WIFI_PASSWORD "heniheni64"
+#define FIREBASE_HOST "chickencoop-a286c-default-rtdb.firebaseio.com" //host Firebase
+#define FIREBASE_AUTH "yefEutSxBhsom1MJNYWsFu22ZT2VVV8I534P0ZXI" //Auth firebase
+#define WIFI_SSID "armin arlert" //SSID wifi
+#define WIFI_PASSWORD "heniheni64" //Password Wifi
 
 
 String pilih;     //setting
