@@ -11,8 +11,8 @@ int tb2=9;  //D9
 void setup() {
  lcd.begin(16, 2);
  lcd.print("hello, world!");
- pinMode(tb1, INPUT);
- pinMode(tb2, INPUT);
+  pinMode(tb1, INPUT);
+  pinMode(tb2, INPUT);
 
  }
 void loop() {
