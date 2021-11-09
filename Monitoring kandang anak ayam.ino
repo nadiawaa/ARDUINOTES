@@ -6,18 +6,18 @@
 #include <Servo.h> //library servo
 #include "DHT.h" // library dht11
 
-#define DHTPIN D7
+#define DHTPIN D7  //DHT pada pin D7
 DHT dht(DHTPIN,DHT11);
-#define echoPin D5
-#define trigPin D6
+#define echoPin D5  //ultrasonic pin D5
+#define trigPin D6  //ultrasonic pin D6
 #define MAX_DISTANCE 250 //max jarak(cm)
 NewPing sonar(D5, D6, 250); //setup pin hcsr04 dan jarak pembacaan dengan fungsi library
-#define servoPin D3
+#define servoPin D3  //Servo pin D3
 Servo myservo;
-#define FIREBASE_HOST "chickencoop-a286c-default-rtdb.firebaseio.com" //host Firebase
-#define FIREBASE_AUTH "yefEutSxBhsom1MJNYWsFu22ZT2VVV8I534P0ZXI" //Auth firebase
-#define WIFI_SSID "armin arlert" //SSID wifi
-#define WIFI_PASSWORD "heniheni64" //Password Wifi
+#define FIREBASE_HOST "host firebase" //host Firebase
+#define FIREBASE_AUTH "auth firebase" //Auth firebase
+#define WIFI_SSID "ssid" //SSID wifi
+#define WIFI_PASSWORD "pwd" //Password Wifi
 
 
 String pilih;     //setting
@@ -49,18 +49,21 @@ int n = 0;
 
 
 void loop() {
+
+  
+//DHT11(Suhu kelembaban)_________________________________________________________________
   float hi=1, low=0;
   float h = dht.readHumidity();
   Firebase.setFloat("Coop/Kelembaban", h);
   float t = dht.readTemperature();
   Firebase.setFloat("Coop/Suhu", t);
 
-//-----
+//==============================================================================
   pilih = Firebase.getString("Coop/setting");
   Serial.print("setting : ");
   Serial.println(pilih);
  
-  if(pilih=="1"){
+  if(pilih=="1"){  //mode otomatis
    Serial.print("Kelembaban : ");
    Serial.print(h);
    Serial.println("% ");
@@ -68,12 +71,12 @@ void loop() {
    Serial.print(t);
    Serial.println("C  ");
 
-    if (t<=31){
+    if (t<=31){  //jika suhu kurang dari 31, lammpu menyala
       digitalWrite(D8, LOW);
       Firebase.setFloat("Coop/Lampu",hi);
       Serial.println("Lampu On");
     }
-    if (t>31){
+    if (t>31){    //jika suhu lebih dari 31, lampu mati
       digitalWrite(D8, HIGH);
       Firebase.setFloat("Coop/Lampu",low);
       Serial.println("Lampu Off");
@@ -81,17 +84,17 @@ void loop() {
    
   }
   
-  if(pilih=="0"){
+  if(pilih=="0"){ //mode manual
    kondisi = Firebase.getString("Coop/Relay");
    Serial.print("Relay: ");
    Serial.println(Firebase.getString("Coop/Relay"));
   
-    if(kondisi=="1"){
+    if(kondisi=="1"){  //relay on, lampu menyala
       digitalWrite(D8, LOW);
       Serial.println("Lampu On");
       Firebase.setFloat("Coop/Lampu",hi);
     }
-    if(kondisi=="0"){
+    if(kondisi=="0"){  //relay off, lampu mati
       digitalWrite(D8, HIGH);
       Serial.println("Lampu Off");
       Firebase.setFloat("Coop/Lampu",low);
@@ -99,7 +102,7 @@ void loop() {
     
   } 
 
-//ultrasonic
+//ultrasonic__________________________________________________________________________________________________
   int jarak = sonar.ping_cm(); //pembacaan jarak dalam cm
   Firebase.setFloat("Coop/Ultrasonic", jarak);
   Serial.print("Jarak : ");
@@ -108,11 +111,11 @@ void loop() {
 
   
 
-//servo
+//servo____________________________________________________________________________________________________________
   katup = Firebase.getString("Coop/katup");
   
-  if(katup == "1"){
-    if(jarak>5){
+  if(katup == "1"){ //jika sudah waktunya
+    if(jarak>5){  //jika jarak lebih dari 5, servo terbuka
       myservo.write(90);
       delay(1000);
       myservo.write(90);
@@ -123,12 +126,12 @@ void loop() {
       delay(1000);
     }
   
-    else{
+    else{   //jika jarak lkurang dari 5, servo tertutup
       Serial.println("Servo Tertutup");
       Firebase.setFloat("Coop/Servo",low);
     }
   }    
-    else{
+    else{  //jika belum waktunya
       Serial.println("Servo Tertutup");
       Firebase.setFloat("Coop/Servo",low);
     }
